@@ -2,6 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PackageId>DijkstraAlgorithm.NetCore</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Edgar Wanjala Marakha</Authors>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <Descrription>Djiskstra Algorithm to help find the shortest path possible in a graph network</Descrription>
+    <Company>Deleted</Company>
+    <LangVersion>/LangVersion:C#</LangVersion>
+    <ProjectUrl>https://github.com/marusi/DijkstraAlgorithm</ProjectUrl>
   </PropertyGroup>
+  <ItemGroup>
+  <None Include="licenses\LICENSE.txt" />
+</ItemGroup>
+
 
 </Project>

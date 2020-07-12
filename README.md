@@ -1,59 +1,68 @@
 # Dijkstra Algorithm
 
-![Build status](https://ci.appveyor.com/api/projects/status/32pxjo4lkh5h3peq?svg=true)
+
 
 > Dijkstra's algorithm is an algorithm for finding the shortest paths between nodes in a graph. [wikipedia](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)
+
+## Github URL
+https://github.com/marusi/DijkstraAlgorithm
 
 ## Nuget Packages
 
 | Nuget Package Name | Nuget Package URL                                                  |
 |--------------------|--------------------------------------------------------------------|
-| DijkstraAlgorithm  | https://www.myget.org/feed/agabani/package/nuget/DijkstraAlgorithm |
+| DijkstraAlgorithm  | COMING SOON |
 
 ## Example Usage
 
-``` csharp
-// Create graph
-var builder = new GraphBuilder();
+``` C#
+// Create graph --- new object from GraphBuilder Class
+var newGraph = new GraphBuilder();
+// add node or vertices: Tokyo, Moscow, Berlin, Nairobi, Rio, Denver, Helsinki, and Oslo.
+newGraph.AddNode("Nairobi"); //a
+newGraph.AddNode("Tokyo");   //b
+newGraph.AddNode("Moscow");  // c
+newGraph.AddNode("Berlin");  //d
+newGraph.AddNode("Rio");     //e
+newGraph.AddNode("Denver");  //f
+newGraph.AddNode("Helsinki"); //g
+newGraph.AddNode("Oslo");    //h
+
+// Link Added and its relative cost
+// newGraph.AddLink("Origin", "Destination", cost.inDouble... ) if you prefer decimal... later convert to double
+
+newGraph
+    .AddLink("Nairobi", "Tokyo", 600)
+    .AddLink("Nairobi", "Berlin", 100);
+
+newGraph
+    .AddLink("Tokyo", "Nairobi", 600)
+    .AddLink("Tokyo", "Moscow", 500)
+    .AddLink("Tokyo", "Berlin", 200)
+    .AddLink("Tokyo", "Rio", 200);
 
 builder
-    .AddNode("A")
-    .AddNode("B")
-    .AddNode("C")
-    .AddNode("D")
-    .AddNode("E");
+    .AddLink("Moscow", "Tokyo", 500)
+    .AddLink("Moscow", "Rio", 500);
 
 builder
-    .AddLink("A", "B", 6)
-    .AddLink("A", "D", 1);
+    .AddLink("Berlin", "Nairobi", 100)
+    .AddLink("Berlin", "Tokyo", 200)
+    .AddLink("Berlin", "Rio", 100);
 
 builder
-    .AddLink("B", "A", 6)
-    .AddLink("B", "C", 5)
-    .AddLink("B", "D", 2)
-    .AddLink("B", "E", 2);
+    .AddLink("Rio", "Tokyo", 200)
+    .AddLink("Rio", "Moscow", 500)
+    .AddLink("Rio", "Berlin", 100);
 
-builder
-    .AddLink("C", "B", 5)
-    .AddLink("C", "E", 5);
-
-builder
-    .AddLink("D", "A", 1)
-    .AddLink("D", "B", 2)
-    .AddLink("D", "E", 1);
-
-builder
-    .AddLink("E", "B", 2)
-    .AddLink("E", "C", 5)
-    .AddLink("E", "D", 1);
-
-var graph = builder.Build();
+// call the Build Method
+var graph = newGraph.Build();
 
 // Create path finder
 var pathFinder = new PathFinder(graph);
 
 // Find path
-const string origin = "A", destination = "C";
+const string origin = "Nairobi", destination = "Moscow";
 
 var path = pathFinder.FindShortestPath(
     graph.Nodes.Single(node => node.Id == origin),
@@ -62,18 +71,18 @@ var path = pathFinder.FindShortestPath(
 // Assert results
 Assert.Equal(path.Origin.Id, origin);
 Assert.Equal(path.Destination.Id, destination);
-Assert.Equal(path.Segments.Count, 3);
-Assert.Equal(path.Segments.Sum(s => s.Weight), 7);
+Assert.Equal(path.Segments.Count, 300);
+Assert.Equal(path.Segments.Sum(s => s.Weight), 700);
 
-Assert.Equal(path.Segments.ElementAt(0).Origin.Id, "A");
-Assert.Equal(path.Segments.ElementAt(0).Weight, 1);
-Assert.Equal(path.Segments.ElementAt(0).Destination.Id, "D");
+Assert.Equal(path.Segments.ElementAt(0).Origin.Id, "Nairobi");
+Assert.Equal(path.Segments.ElementAt(0).Weight, 100);
+Assert.Equal(path.Segments.ElementAt(0).Destination.Id, "Berlin");
 
-Assert.Equal(path.Segments.ElementAt(1).Origin.Id, "D");
-Assert.Equal(path.Segments.ElementAt(1).Weight, 1);
-Assert.Equal(path.Segments.ElementAt(1).Destination.Id, "E");
+Assert.Equal(path.Segments.ElementAt(1).Origin.Id, "Berlin");
+Assert.Equal(path.Segments.ElementAt(1).Weight, 100);
+Assert.Equal(path.Segments.ElementAt(1).Destination.Id, "Rio");
 
-Assert.Equal(path.Segments.ElementAt(2).Origin.Id, "E");
-Assert.Equal(path.Segments.ElementAt(2).Weight, 5);
-Assert.Equal(path.Segments.ElementAt(2).Destination.Id, "C");
+Assert.Equal(path.Segments.ElementAt(2).Origin.Id, "Rio");
+Assert.Equal(path.Segments.ElementAt(2).Weight, 500);
+Assert.Equal(path.Segments.ElementAt(2).Destination.Id, "Moscow");
 ```
